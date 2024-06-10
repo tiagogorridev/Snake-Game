@@ -14,19 +14,17 @@ class Snake:
         self.body = [[0, 0]]
         self.squares = []
         self.create_snake()
-
     def create_snake(self):
         for x, y in self.body:
             square = canvas.create_rectangle(x, y, x + SIZE, y + SIZE, fill=SNAKE_COL)
             self.squares.append(square)
-
+            
 class Food:
     def __init__(self):
         self.coordinates = [random.randint(0, (WIDTH // SIZE) - 1) * SIZE,
                             random.randint(0, (HEIGHT // SIZE) - 1) * SIZE]
         canvas.create_oval(self.coordinates[0], self.coordinates[1],
                            self.coordinates[0] + SIZE, self.coordinates[1] + SIZE, fill=FOOD_COL, tag='food')
-
 def next_round():
     global game_running
     if game_running:
@@ -57,7 +55,6 @@ def next_round():
             game_over()
         else:
             window.after(VEL, next_round)
-
 def change_direction(new_direction):
     global direction
     if new_direction == 'left' and direction != 'right':
@@ -68,7 +65,6 @@ def change_direction(new_direction):
         direction = new_direction
     elif new_direction == 'down' and direction != 'up':
         direction = new_direction
-
 def collision():
     x, y = snake.body[0]
     if x < 0 or x >= WIDTH or y < 0 or y >= HEIGHT:
@@ -76,7 +72,6 @@ def collision():
     if [x, y] in snake.body[1:]:
         return True
     return False
-
 def game_over():
     global game_running
     game_running = False
@@ -84,7 +79,6 @@ def game_over():
     canvas.create_text(WIDTH / 2, HEIGHT / 2, font=('consolas', 70), text='GAME OVER', fill='red')
     canvas.create_text(WIDTH / 2, HEIGHT / 2 + 100, font=('consolas', 30), text='Pressione ENTER', fill='white')
     window.bind('<Return>', restart_game)
-
 def restart_game(event):
     global game_running, points, direction
     if not game_running:
@@ -96,14 +90,12 @@ def restart_game(event):
         snake.__init__()
         food.__init__()
         next_round()
-
 window = tk.Tk()
 window.title('Snake Game')
 window.resizable(False, False)
 points = 0
 direction = 'down'
 game_running = True
-
 label = tk.Label(window, text=f'SCORE: {points}', font=('consolas', 40))
 label.pack()
 
